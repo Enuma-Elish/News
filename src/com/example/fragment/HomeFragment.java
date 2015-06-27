@@ -22,12 +22,15 @@ import com.example.home.SmartServicePage;
 import com.example.news.R;
 import com.example.view.CustomViewPager;
 import com.example.view.LazyViewPager.OnPageChangeListener;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 
 public class HomeFragment extends BaseFragment {
 
 	private List<BasePage> list = new ArrayList<BasePage>();
+	@ViewInject(R.id.viewpager)
 	private CustomViewPager viewpager;
+	@ViewInject(R.id.main_radio)
 	private RadioGroup main_radio;
 	private View view;
 	private int checkedId = R.id.rb_function;
@@ -35,22 +38,22 @@ public class HomeFragment extends BaseFragment {
 	@Override
 	public void initData(Bundle savedInstanceState) {
 		list.add(new FunctionPage(context));
-		list.add(new GovAffairsPage(context));
 		list.add(new NewsCenterPage(context));
-		list.add(new SettingPage(context));
 		list.add(new SmartServicePage(context));
+		list.add(new GovAffairsPage(context));
+		list.add(new SettingPage(context));
 		HomePageAdapter homePageAdapter = new HomePageAdapter(context, list);
 		viewpager.setAdapter(homePageAdapter);
 		viewpager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int position) {
-				// 如果位置是0的话，才能出现滑动菜单。。如果是其他的tab出现的时候，滑动菜单就给屏蔽掉。
-				if (0 == position) {
-					sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-				} else {
-					sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-				}
+//				// 如果位置是0的话，才能出现滑动菜单。。如果是其他的tab出现的时候，滑动菜单就给屏蔽掉。
+//				if (0 == position) {
+//					sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+//				} else {
+//					sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+//				}
 				BasePage page = list.get(position);
 				page.initData();
 			}
@@ -140,8 +143,7 @@ public class HomeFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 		view = LayoutInflater.from(getActivity()).inflate(R.layout.frag_home2,
 				null);
-		viewpager = (CustomViewPager) view.findViewById(R.id.viewpager);
-		main_radio = (RadioGroup) view.findViewById(R.id.main_radio);
+		ViewUtils.inject(this, view);
 		return view;
 	}
 

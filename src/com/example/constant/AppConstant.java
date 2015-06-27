@@ -2,9 +2,12 @@ package com.example.constant;
 
 public class AppConstant {
 
-	public final static String BASE_URL = "http://zhbj.qianlong.com";
+	public static final String BASE_URL = "http://zhbj.qianlong.com";
 	// 新闻中心目录+列表
-	public final static String NEWS_CENTER_CATEGORIES = BASE_URL
+	public static final String NEWS_CENTER_URL = BASE_URL
 			+ "/static/api/news/categories.json";
+	// 新闻中心缓存
+	public static final String NEWS_CENTER_CACHE = "news_center_cache";
+	public static final String SP_NAME = "config";
 
 }

@@ -9,82 +9,55 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.adapter.MenuListAdapter;
 import com.example.base.BaseFragment;
+import com.example.base.MenuSwitchListener;
 import com.example.news.MainActivity;
 import com.example.news.R;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnItemClick;
 
 public class MenuFragment extends BaseFragment {
 
-	private View view;
+	@ViewInject(R.id.lv_menu)
 	private ListView listView;
+	public List<String> list = new ArrayList<String>();
+	public MenuListAdapter adapter;
+	public MenuSwitchListener listener;
 
-	class ListViewOnItemClickListener implements OnItemClickListener {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			Fragment f = null;
-			switch (position) {
-			case 0:
-				f = new Fragment1();
-				break;
-			case 1:
-				f = new Fragment2();
-				break;
-			case 2:
-				f = new Fragment3();
-				break;
-			case 3:
-				f = new Fragment4();
-				break;
-			case 4:
-				f = new Fragment5();
-				break;
-			default:
-				break;
-			}
-			switchFragment(f);
-		}
+	@OnItemClick(R.id.lv_menu)
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		adapter.setCurrPosition(position);
+		listener.menuSwitch(parent,view,position,id);
+		sm.toggle();
 	}
 
-	private void switchFragment(Fragment f) {
-		if (f != null) {
-			if (getActivity() instanceof MainActivity) {
-				((MainActivity) getActivity()).switchFragment(f);
-			}
+	// 初始化list的数据
+	public void initMenuList(List<String> menuList) {
+		list.clear();
+		list.addAll(menuList);
+		if (adapter == null) {
+			adapter = new MenuListAdapter(context, list);
+			listView.setAdapter(adapter);
+		} else {
+			adapter.notifyDataSetChanged();
 		}
-
-	}
-
-	private List initData() {
-		List<String> list = new ArrayList<String>();
-		list.add("text1");
-		list.add("text2");
-		list.add("text3");
-		list.add("text4");
-		list.add("text5");
-		return list;
 	}
 
 	@Override
 	public void initData(Bundle savedInstanceState) {
-		listView = (ListView) view.findViewById(R.id.list_view);
-		List initData = initData();
-		listView.setAdapter(new ArrayAdapter<>(getActivity(),
-				android.R.layout.simple_list_item_1, android.R.id.text1,
-				initData));
-		listView.setOnItemClickListener(new ListViewOnItemClickListener());
 	}
 
 	@Override
 	public View initView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = LayoutInflater.from(getActivity()).inflate(R.layout.list_view,
-				null);
+		view = LayoutInflater.from(getActivity()).inflate(
+				R.layout.layout_left_menu, null);
+		ViewUtils.inject(this, view);
 		return view;
 	}
 

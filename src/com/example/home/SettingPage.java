@@ -25,7 +25,7 @@ public class SettingPage extends BasePage{
 	@Override
 	public void initData() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("  ");
 	}
 
 }

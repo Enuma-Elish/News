@@ -17,26 +17,26 @@ public class MainActivity extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setBehindContentView(R.layout.menu);
+		setBehindContentView(R.layout.menu_content);
 		setContentView(R.layout.content);
 
 		sm = getSlidingMenu();
-		sm.setMode(SlidingMenu.LEFT);
+		sm.setMode(SlidingMenu.LEFT); //设置滑动的方向
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setShadowDrawable(R.drawable.shadow);
-		sm.setShadowWidth(R.dimen.shadow_width);
-		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN); //设置滑动模式
 		MenuFragment menuFragment = new MenuFragment();
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame, menuFragment, "Menu").commit();
+				.replace(R.id.menu_content_frame, menuFragment, "Menu").commit();
 
 		HomeFragment homeFragment = new HomeFragment();
-		getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
-				homeFragment).commit();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, homeFragment).commit();
 	}
-	
-	public MenuFragment getMenuFragment(){
-		return (MenuFragment) getSupportFragmentManager().findFragmentByTag("Menu");
+
+	public MenuFragment getMenuFragment() {
+		return (MenuFragment) getSupportFragmentManager().findFragmentByTag(
+				"Menu");
 	}
 
 	public void switchFragment(Fragment f) {

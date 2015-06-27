@@ -6,10 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.base.BasePage;
+import com.example.model.BaseModel.DataModel;
 
 public class PicPage extends BasePage {
 
-	public PicPage(Context context) {
+	public PicPage(Context context, DataModel dataModel) {
 		super(context);
 	}
 

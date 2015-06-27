@@ -6,10 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.base.BasePage;
+import com.example.model.BaseModel.DataModel;
 
 public class VotePage extends BasePage {
 
-	public VotePage(Context context) {
+	public VotePage(Context context, DataModel dataModel) {
 		super(context);
 	}
 

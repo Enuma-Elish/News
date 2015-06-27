@@ -98,10 +98,10 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 		changeMenuList(menuNewsList);
 		pageList.clear();
 		BasePage newsPage = new NewsPage(context,baseModel.data.get(0));
-		BasePage topicPage = new TopicPage(context);
-		BasePage picPage = new PicPage(context);
-		BasePage interactPage = new InteractPage(context);
-		BasePage votePage = new VotePage(context);
+		BasePage topicPage = new TopicPage(context,baseModel.data.get(1));
+		BasePage picPage = new PicPage(context,baseModel.data.get(2));
+		BasePage interactPage = new InteractPage(context,baseModel.data.get(3));
+		BasePage votePage = new VotePage(context,baseModel.data.get(4));
 		pageList.add(newsPage);
 		pageList.add(topicPage);
 		pageList.add(picPage);
@@ -111,11 +111,6 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 			this.menuSwitch(null, null, 0, 0l);
 			firstLoad = false;
 		}
-		// datas = baseModel.data;
-		// DataModel newsDataModel = datas.get(0);
-		// for (ChildrenModel c : newsDataModel.children) {
-		// childrenTitle.add(c.title);
-		// }
 		// TODO
 	}
 
@@ -142,20 +137,6 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 		basePage = pageList.get(position);
 		news_center_fl.removeAllViews();
 		news_center_fl.addView(basePage.getRootView());
-		// switch (position) {
-		// case 0:
-		//
-		// break;
-		// case 1:
-		//
-		// break;
-		// case 2:
-		//
-		// break;
-		//
-		// default:
-		// break;
-		// }
 		basePage.initData();
 	}
 

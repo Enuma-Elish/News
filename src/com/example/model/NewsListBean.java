@@ -34,7 +34,7 @@ public class NewsListBean extends BaseBean {
 		public String url;
 		public String listimage;
 		public String pubdate;
-//		public int commentcount;
+		public int commentcount;
 		public boolean comment;
 		public String commenturl;
 		public String commentlist;

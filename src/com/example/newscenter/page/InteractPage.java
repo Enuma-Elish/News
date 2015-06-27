@@ -6,10 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.base.BasePage;
+import com.example.model.BaseModel.DataModel;
 
 public class InteractPage extends BasePage {
 
-	public InteractPage(Context context) {
+	public InteractPage(Context context, DataModel dataModel) {
 		super(context);
 	}
 

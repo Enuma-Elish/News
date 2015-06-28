@@ -129,7 +129,7 @@ public class CommonUtil {
 
 	public static String getStringDate() {
 		Date currentTime = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
 		String dateString = formatter.format(currentTime);
 		return dateString;
 	}

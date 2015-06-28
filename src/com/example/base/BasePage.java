@@ -1,6 +1,7 @@
 package com.example.base;
 
 import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -20,12 +21,12 @@ public abstract class BasePage {
 	}
 
 	// 从服务器上获取数据(json)
-	public void getData(HttpMethod method, String url,
+	public void getData(HttpMethod method, String url, RequestParams params,
 			RequestCallBack<String> callBack) {
 		HttpUtils httpUtils = new HttpUtils();
-		httpUtils.send(method, url, callBack);
+		httpUtils.send(method, url, params, callBack);
 	}
-	
+
 	public View getRootView() {
 		return view;
 	}

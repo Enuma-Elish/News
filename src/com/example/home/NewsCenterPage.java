@@ -60,7 +60,7 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 			}
 		}
 		if (firstGetData) {
-			getData(HttpMethod.GET, AppConstant.NEWS_CENTER_URL, callBack);
+			getData(HttpMethod.GET, AppConstant.NEWS_CENTER_URL, null, callBack);
 			firstGetData = false;
 		}
 	}
@@ -97,11 +97,11 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 		}
 		changeMenuList(menuNewsList);
 		pageList.clear();
-		BasePage newsPage = new NewsPage(context,baseModel.data.get(0));
-		BasePage topicPage = new TopicPage(context,baseModel.data.get(1));
-		BasePage picPage = new PicPage(context,baseModel.data.get(2));
-		BasePage interactPage = new InteractPage(context,baseModel.data.get(3));
-		BasePage votePage = new VotePage(context,baseModel.data.get(4));
+		BasePage newsPage = new NewsPage(context, baseModel.data.get(0));
+		BasePage topicPage = new TopicPage(context, baseModel.data.get(1));
+		BasePage picPage = new PicPage(context, baseModel.data.get(2));
+		BasePage interactPage = new InteractPage(context, baseModel.data.get(3));
+		BasePage votePage = new VotePage(context, baseModel.data.get(4));
 		pageList.add(newsPage);
 		pageList.add(topicPage);
 		pageList.add(picPage);

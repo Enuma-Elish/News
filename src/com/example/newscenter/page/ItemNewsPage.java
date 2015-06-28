@@ -3,8 +3,6 @@ package com.example.newscenter.page;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Comment;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,20 +12,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adapter.NewsAdapter;
 import com.example.base.BasePage;
-import com.example.base.QLBaseAdapter;
 import com.example.model.BaseModel.ChildrenModel;
+import com.example.model.NewsListBean;
 import com.example.model.NewsListBean.News;
 import com.example.model.NewsListBean.TopNews;
-import com.example.model.CountBean;
-import com.example.model.NewsListBean;
 import com.example.news.R;
 import com.example.util.CommonUtil;
-import com.example.util.GsonUtils;
 import com.example.util.QLParser;
 import com.example.util.SharePrefUtil;
 import com.example.view.RollViewPager;
@@ -38,7 +34,8 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnItemClick;
+import com.qianlong.android.view.pullrefreshview.PullToRefreshBase;
+import com.qianlong.android.view.pullrefreshview.PullToRefreshBase.OnRefreshListener;
 import com.qianlong.android.view.pullrefreshview.PullToRefreshListView;
 
 public class ItemNewsPage extends BasePage implements OnItemClickListener {
@@ -60,6 +57,8 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	private static final int DOT_FOCUS_ID = R.drawable.dot_focus;
 	private static final int DOT_NORMAL_ID = R.drawable.dot_normal;
 
+	private boolean isRefreshing; // 是否正在更新
+	private boolean isLoaded; // 是否为已加载
 	private boolean isLoadFirstPage; // 默认缓存第一页
 
 	public ItemNewsPage(Context context, ChildrenModel children) {
@@ -70,10 +69,14 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	@Override
 	public void initData() {
 		String cache = SharePrefUtil.getString(context, children.title, null);
-		if (!TextUtils.isEmpty(cache)) {
+		String updateTime = SharePrefUtil.getString(context, children.title
+				+ "update_time", null);
+		if (!TextUtils.isEmpty(updateTime))
+			lv_item_news.setLastUpdatedLabel(updateTime);
+		if (!TextUtils.isEmpty(cache))
 			processData(cache);
-		}
-		getData(HttpMethod.GET, children.url, callBack);
+		if (!isLoaded)
+			getData(HttpMethod.GET, children.url, null, callBack);
 	}
 
 	// 服务器上获取数据的接口回调
@@ -82,6 +85,8 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		@Override
 		public void onSuccess(ResponseInfo<String> responseInfo) {
 			processData(responseInfo.result);
+			setUpdateTime();
+			isLoaded = true;
 			if (!isLoadFirstPage) {
 				SharePrefUtil.saveString(context, children.title,
 						responseInfo.result);
@@ -94,23 +99,15 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			Toast.makeText(context, "网络错误", Toast.LENGTH_SHORT).show();
 		}
 	};
-	
-	// 服务器上获取评论量数据的接口回调
-		RequestCallBack<String> commentCallBack = new RequestCallBack<String>() {
 
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				processComment(responseInfo.result);
-				
-			}
+	// 设置下拉的更新时间
+	public void setUpdateTime() {
+		String updateTime = CommonUtil.getStringDate();
+		lv_item_news.setLastUpdatedLabel(updateTime);
+		SharePrefUtil.saveString(context, children.title + "update_time",
+				updateTime); // 缓存更新时间
+	}
 
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				Toast.makeText(context, "网络错误", Toast.LENGTH_SHORT).show();
-			}
-		};
-
-	private CountBean countBean;
 	private List<TopNews> topNewsList;
 	private List<News> newsList;
 	private NewsListBean newsListBean;
@@ -130,6 +127,11 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			processTopNews(topNewsList);
 			processNews(newsList);
 		}
+		if (isRefreshing) {
+			// 完成刷新后，将下拉刷新栏收起
+			lv_item_news.onPullDownRefreshComplete();
+			isRefreshing = false;
+		}
 	}
 
 	private void processNews(List<News> newsList) {
@@ -139,7 +141,6 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			return;
 		}
 		for (News n : newsList) {
-			getData(HttpMethod.GET, n.commenturl+n.id, commentCallBack);
 			list.add(n);
 		}
 		if (adapter == null) {
@@ -147,17 +148,10 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			lv_item_news.getRefreshableView().setAdapter(adapter);
 		}
 		loading_view.setVisibility(View.GONE);
-		lv_item_news.getRefreshableView().addHeaderView(view);
-
 		adapter.notifyDataSetChanged();
 	}
-	
-	//处理服务器返回的评论数据
-	private void processComment(String result) {
-		countBean = QLParser.parse(result, CountBean.class);
-		
-	}
 
+	// 初始化RollViewPager
 	private void processTopNews(List<TopNews> topNewsList) {
 		initDots();
 		pager = new RollViewPager(context, dots, DOT_FOCUS_ID, DOT_NORMAL_ID,
@@ -195,6 +189,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		}
 	}
 
+	// 点击图片事件
 	OnPagerClickCallback onPagerClickCallback = new OnPagerClickCallback() {
 
 		@Override
@@ -209,11 +204,26 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		View newsItemList = inflater.inflate(R.layout.frag_item_news, null);
 		ViewUtils.inject(this, view);
 		ViewUtils.inject(this, newsItemList);
-		// 上拉加载不可用
-		lv_item_news.setPullLoadEnabled(false);
 		// 滚动到底自动加载可用
 		lv_item_news.setScrollLoadEnabled(true);
+		lv_item_news.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onPullDownToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+				// 下拉刷新栏，获取服务器最新数据
+				getData(HttpMethod.GET, children.url, null, callBack);
+				isRefreshing = true;
+			}
+
+			@Override
+			public void onPullUpToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+
+			}
+
+		});
 		lv_item_news.getRefreshableView().setOnItemClickListener(this);
+		lv_item_news.getRefreshableView().addHeaderView(view);
 		return newsItemList;
 	}
 

@@ -16,7 +16,7 @@ public class NewsListBean extends BaseBean {
 	}
 	
 	public static class TopNews{
-		public String id;
+		public int id;
 		public String title;
 		public String topimage;
 		public String url;
@@ -29,7 +29,7 @@ public class NewsListBean extends BaseBean {
 	}
 	
 	public static class News{
-		public String id;
+		public int id;
 		public String title;
 		public String url;
 		public String listimage;

@@ -59,6 +59,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 
 	private boolean isRefreshing; // 是否正在更新
 	private boolean isLoaded; // 是否为已加载
+	private boolean isMore; // 是否更多
 	private boolean isLoadFirstPage; // 默认缓存第一页
 
 	public ItemNewsPage(Context context, ChildrenModel children) {
@@ -71,12 +72,15 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		String cache = SharePrefUtil.getString(context, children.title, null);
 		String updateTime = SharePrefUtil.getString(context, children.title
 				+ "update_time", null);
-		if (!TextUtils.isEmpty(updateTime))
+		if (!TextUtils.isEmpty(updateTime)) {
 			lv_item_news.setLastUpdatedLabel(updateTime);
-		if (!TextUtils.isEmpty(cache))
+		}
+		if (!TextUtils.isEmpty(cache)) {
 			processData(cache);
-		if (!isLoaded)
+		}
+		if (!isLoaded) {
 			getData(HttpMethod.GET, children.url, null, callBack);
+		}
 	}
 
 	// 服务器上获取数据的接口回调
@@ -85,7 +89,9 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		@Override
 		public void onSuccess(ResponseInfo<String> responseInfo) {
 			processData(responseInfo.result);
-			setUpdateTime();
+			if (!isMore) {
+				setUpdateTime();
+			}
 			isLoaded = true;
 			if (!isLoadFirstPage) {
 				SharePrefUtil.saveString(context, children.title,
@@ -122,9 +128,16 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	private void processData(String result) {
 		newsListBean = QLParser.parse(result, NewsListBean.class);
 		if (newsListBean.retcode == 200) {
-			topNewsList = newsListBean.data.topnews;
+			if (TextUtils.isEmpty(newsListBean.data.more)) {
+				lv_item_news.setHasMoreData(false);
+			} else {
+				lv_item_news.setHasMoreData(true);
+			}
+			if (!isMore) {
+				topNewsList = newsListBean.data.topnews;
+				processTopNews(topNewsList);
+			}
 			newsList = newsListBean.data.news;
-			processTopNews(topNewsList);
 			processNews(newsList);
 		}
 		if (isRefreshing) {
@@ -135,7 +148,9 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	}
 
 	private void processNews(List<News> newsList) {
-		list.clear();
+		if (!isMore) {
+			list.clear();
+		}
 		if (newsList == null) {
 			loading_view.setVisibility(View.VISIBLE);
 			return;
@@ -147,6 +162,10 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			adapter = new NewsAdapter(context, list);
 			lv_item_news.getRefreshableView().setAdapter(adapter);
 		}
+		if (isMore) {
+			lv_item_news.onPullUpRefreshComplete();
+			isMore = false;
+		}
 		loading_view.setVisibility(View.GONE);
 		adapter.notifyDataSetChanged();
 	}
@@ -154,14 +173,14 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	// 初始化RollViewPager
 	private void processTopNews(List<TopNews> topNewsList) {
 		initDots();
-		pager = new RollViewPager(context, dots, DOT_FOCUS_ID, DOT_NORMAL_ID,
-				onPagerClickCallback);
 		uriList = new ArrayList<String>();
 		titleList = new ArrayList<String>();
 		for (TopNews topNews : topNewsList) {
 			uriList.add(topNews.topimage);
 			titleList.add(topNews.title);
 		}
+		pager = new RollViewPager(context, dots, DOT_FOCUS_ID, DOT_NORMAL_ID,
+				onPagerClickCallback);
 		pager.setUriList(uriList);
 		pager.setTitle(top_news_title, titleList);
 		pager.startRoll();
@@ -218,7 +237,9 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
-
+				// 加载更多
+				getData(HttpMethod.GET, newsListBean.data.more, null, callBack);
+				isMore = true;
 			}
 
 		});

@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.activity.MainActivity;
 import com.example.adapter.MenuListAdapter;
 import com.example.base.BaseFragment;
 import com.example.base.MenuSwitchListener;
-import com.example.news.MainActivity;
 import com.example.news.R;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;

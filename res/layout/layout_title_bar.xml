@@ -34,18 +34,7 @@
     </RelativeLayout>
     
     <ImageButton
-        android:id="@+id/imgbtn_text"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:visibility="gone"
-        android:src="@drawable/icon_textsize"
-        android:background="@android:color/transparent"
-        android:scaleType="centerInside" />
-
-    <ImageButton
-        android:id="@+id/imgbtn_right"
+        android:id="@+id/imgbtn_middle"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="5dp"
@@ -54,7 +43,7 @@
         android:scaleType="centerInside" />
 
     <ImageButton 
-        android:id="@+id/btn_right"
+        android:id="@+id/imgbtn_right"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="5dp"

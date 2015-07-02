@@ -7,17 +7,19 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.activity.MainActivity;
 import com.example.base.BasePage;
 import com.example.base.MenuSwitchListener;
 import com.example.constant.AppConstant;
 import com.example.fragment.MenuFragment;
 import com.example.model.BaseModel;
 import com.example.model.BaseModel.DataModel;
-import com.example.news.MainActivity;
 import com.example.news.R;
 import com.example.newscenter.page.InteractPage;
 import com.example.newscenter.page.NewsPage;
@@ -44,6 +46,7 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 	private BasePage basePage;
 	@ViewInject(R.id.news_center_fl)
 	private FrameLayout news_center_fl;
+	
 
 	public NewsCenterPage(Context context) {
 		super(context);
@@ -127,6 +130,15 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 		View view = LayoutInflater.from(context).inflate(
 				R.layout.news_center_frame, null);
 		ViewUtils.inject(this, view);
+		super.initTitleBar(view);
+		imgbtn_left.setImageResource(R.drawable.img_menu);
+		imgbtn_left.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				((MainActivity) context).getSlidingMenu().showMenu();
+			}
+		});
 		return view;
 	}
 

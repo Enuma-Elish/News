@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.activity.NewsDetailsActivity;
 import com.example.adapter.NewsAdapter;
 import com.example.base.BasePage;
 import com.example.model.BaseModel.ChildrenModel;
@@ -213,7 +214,8 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 
 		@Override
 		public void onPagerClick(int position) {
-			// TODO 点击图片事件
+			TopNews topNews = topNewsList.get(position);
+			NewsDetailsActivity.actionStart(context, "topNews", topNews);
 		}
 	};
 
@@ -251,7 +253,8 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO 新闻条目点击事件
+		News news = (News) parent.getAdapter().getItem(position);
+		NewsDetailsActivity.actionStart(context, "news", news);
 	}
 
 }

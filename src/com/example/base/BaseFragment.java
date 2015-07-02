@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.news.MainActivity;
+import com.example.activity.MainActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public abstract class BaseFragment extends Fragment {

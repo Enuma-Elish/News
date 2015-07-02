@@ -64,6 +64,7 @@ public class NewsDetailsActivity extends BaseActivity implements
 	@Override
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
+		ActivityCollector.removeActivity(this);
 		super.onDestroy();
 	}
 

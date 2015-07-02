@@ -46,7 +46,6 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 	private BasePage basePage;
 	@ViewInject(R.id.news_center_fl)
 	private FrameLayout news_center_fl;
-	
 
 	public NewsCenterPage(Context context) {
 		super(context);
@@ -73,9 +72,12 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 
 		@Override
 		public void onSuccess(ResponseInfo<String> responseInfo) {
-			processData(responseInfo.result);
-			SharePrefUtil.saveString(context, AppConstant.NEWS_CENTER_CACHE,
-					responseInfo.result);
+			if (responseInfo.result.startsWith("{")
+					&& responseInfo.result.endsWith("}")) {
+				processData(responseInfo.result);
+				SharePrefUtil.saveString(context,
+						AppConstant.NEWS_CENTER_CACHE, responseInfo.result);
+			}
 		}
 
 		@Override
@@ -133,7 +135,7 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 		super.initTitleBar(view);
 		imgbtn_left.setImageResource(R.drawable.img_menu);
 		imgbtn_left.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				((MainActivity) context).getSlidingMenu().showMenu();

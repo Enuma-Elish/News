@@ -70,6 +70,10 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 
 	@Override
 	public void initData() {
+		if (!isLoaded && CommonUtil.isNetworkAvailable(context) != 0) {
+			getData(HttpMethod.GET, children.url, null, callBack);
+			return;
+		}
 		String cache = SharePrefUtil.getString(context, children.title, null);
 		String updateTime = SharePrefUtil.getString(context, children.title
 				+ "update_time", null);
@@ -77,10 +81,9 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			lv_item_news.setLastUpdatedLabel(updateTime);
 		}
 		if (!TextUtils.isEmpty(cache)) {
-			processData(cache);
-		}
-		if (!isLoaded) {
-			getData(HttpMethod.GET, children.url, null, callBack);
+			if (isLoaded || CommonUtil.isNetworkAvailable(context) == 0) {
+				processData(cache);
+			}
 		}
 	}
 
@@ -89,15 +92,22 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 
 		@Override
 		public void onSuccess(ResponseInfo<String> responseInfo) {
-			processData(responseInfo.result);
-			if (!isMore) {
-				setUpdateTime();
-			}
-			isLoaded = true;
-			if (!isLoadFirstPage) {
-				SharePrefUtil.saveString(context, children.title,
-						responseInfo.result);
-				isLoadFirstPage = true;
+			if (responseInfo.result.startsWith("{")
+					&& responseInfo.result.endsWith("}")) {
+				processData(responseInfo.result);
+				if (!isMore) {
+					setUpdateTime();
+					Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
+				}
+				if (isMore) {
+					isMore = false;
+				}
+				isLoaded = true;
+				if (!isLoadFirstPage) {
+					SharePrefUtil.saveString(context, children.title,
+							responseInfo.result);
+					isLoadFirstPage = true;
+				}
 			}
 		}
 
@@ -165,7 +175,6 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		}
 		if (isMore) {
 			lv_item_news.onPullUpRefreshComplete();
-			isMore = false;
 		}
 		loading_view.setVisibility(View.GONE);
 		adapter.notifyDataSetChanged();
@@ -232,16 +241,22 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				// 下拉刷新栏，获取服务器最新数据
-				getData(HttpMethod.GET, children.url, null, callBack);
-				isRefreshing = true;
+				if (CommonUtil.isNetworkAvailable(context) != 0) {
+					isRefreshing = true;
+					getData(HttpMethod.GET, children.url, null, callBack);
+				} else {
+					Toast.makeText(context, "网络错误", Toast.LENGTH_SHORT).show();
+					lv_item_news.onPullDownRefreshComplete();
+				}
 			}
 
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				// 加载更多
-				getData(HttpMethod.GET, newsListBean.data.more, null, callBack);
 				isMore = true;
+				getData(HttpMethod.GET, newsListBean.data.more, null, callBack);
+
 			}
 
 		});

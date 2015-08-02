@@ -86,6 +86,7 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 		}
 
 	};
+	public static View view;
 
 	// 处理网络数据
 	private void processData(String result) {
@@ -129,7 +130,7 @@ public class NewsCenterPage extends BasePage implements MenuSwitchListener {
 	// 初始化view
 	@Override
 	public View initView(LayoutInflater inflater) {
-		View view = LayoutInflater.from(context).inflate(
+		view = LayoutInflater.from(context).inflate(
 				R.layout.news_center_frame, null);
 		ViewUtils.inject(this, view);
 		super.initTitleBar(view);

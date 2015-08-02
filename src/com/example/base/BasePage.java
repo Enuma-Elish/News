@@ -14,6 +14,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public abstract class BasePage {
 
+	
 	protected ImageButton imgbtn_left;
 	protected ImageButton imgbtn_middle;
 	protected ImageButton imgbtn_right;
@@ -26,6 +27,7 @@ public abstract class BasePage {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = initView(inflater);
+		initTitleBar(view);
 	}
 
 	// 初始化标题栏

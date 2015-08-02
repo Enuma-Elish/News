@@ -168,6 +168,7 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
                     || scrollState == OnScrollListener.SCROLL_STATE_FLING) {
                 if (isReadyForPullUp()) {
                     startLoading();
+                    getRefreshableView().setSelection(getRefreshableView().getCount());
                 }
             }
         }

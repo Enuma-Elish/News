@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.example.activity.MainActivity;
 import com.example.base.BasePage;
 import com.example.base.BaseViewPagerAdapter;
-import com.example.model.BaseModel.ChildrenModel;
 import com.example.model.BaseModel.DataModel;
 import com.example.news.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;

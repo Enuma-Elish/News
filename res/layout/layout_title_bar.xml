@@ -8,7 +8,7 @@
     android:orientation="horizontal" >
 
     <ImageButton
-        android:id="@+id/imgbtn_left"
+        android:id="@+id/ib_left"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="5dp"
@@ -16,25 +16,18 @@
         android:background="@android:color/transparent"
         android:scaleType="centerInside" />
 
-    <RelativeLayout
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
 
         <TextView
-            android:id="@+id/txt_title"
+            android:id="@+id/tv_title"
             style="@style/style_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawablePadding="5dp"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="" />
-    </RelativeLayout>
+            android:layout_weight="1"
+            android:text="BJ新闻" />
     
     <ImageButton
-        android:id="@+id/imgbtn_middle"
+        android:id="@+id/ib_middle"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="5dp"
@@ -43,7 +36,7 @@
         android:scaleType="centerInside" />
 
     <ImageButton 
-        android:id="@+id/imgbtn_right"
+        android:id="@+id/ib_right"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="5dp"

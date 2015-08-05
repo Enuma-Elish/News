@@ -3,146 +3,147 @@ package com.example.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import com.example.activity.MainActivity;
 import com.example.base.BaseFragment;
 import com.example.base.BasePage;
-import com.example.home.FunctionPage;
-import com.example.home.GovAffairsPage;
-import com.example.home.NewsCenterPage;
-import com.example.home.SettingPage;
-import com.example.home.SmartServicePage;
+import com.example.base.MenuSwitchListener;
+import com.example.constant.AppConstant;
+import com.example.model.BaseModel;
+import com.example.model.BaseModel.DataModel;
 import com.example.news.R;
-import com.example.view.CustomViewPager;
-import com.example.view.LazyViewPager.OnPageChangeListener;
+import com.example.pager.InteractPage;
+import com.example.pager.NewsPage;
+import com.example.pager.PicPage;
+import com.example.pager.TopicPage;
+import com.example.pager.VotePage;
+import com.example.util.QLParser;
+import com.example.util.SharePrefUtil;
+import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements MenuSwitchListener {
 
-	private List<BasePage> list = new ArrayList<BasePage>();
-	@ViewInject(R.id.viewpager)
-	private CustomViewPager viewpager;
-	@ViewInject(R.id.main_radio)
-	private RadioGroup main_radio;
-	private View view;
-	private int checkedId = R.id.rb_function;
+	private List<String> menuNewsList = new ArrayList<String>();
+	private MenuFragment menuFragment;
+	private boolean firstGetData = true;
+	private boolean firstLoad = true;
+	private List<BasePage> pageList = new ArrayList<BasePage>();
+	private BasePage basePage;
+	@ViewInject(R.id.fl_news_center)
+	private FrameLayout fl_news_center;
 
 	@Override
 	public void initData(Bundle savedInstanceState) {
-		list.add(new FunctionPage(context));
-		list.add(new NewsCenterPage(context));
-		list.add(new SmartServicePage(context));
-		list.add(new GovAffairsPage(context));
-		list.add(new SettingPage(context));
-		HomePageAdapter homePageAdapter = new HomePageAdapter(context, list);
-		viewpager.setAdapter(homePageAdapter);
-		viewpager.setOnPageChangeListener(new OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int position) {
-//				// 如果位置是0的话，才能出现滑动菜单。。如果是其他的tab出现的时候，滑动菜单就给屏蔽掉。
-//				if (0 == position) {
-//					sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-//				} else {
-//					sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-//				}
-				BasePage page = list.get(position);
-				page.initData();
+		if (menuNewsList.size() == 0) {
+			String cache = SharePrefUtil.getString(context,
+					AppConstant.NEWS_CENTER_CACHE, null);
+			if (!TextUtils.isEmpty(cache)) {
+				processData(cache);
 			}
+		}
+		if (firstGetData) {
+			getData(HttpMethod.GET, AppConstant.NEWS_CENTER_URL, null, callBack);
+			firstGetData = false;
+		}
 
-			@Override
-			public void onPageScrolled(int position, float positionOffset,
-					int positionOffsetPixels) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int state) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		main_radio.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				switch (checkedId) {
-				case R.id.rb_function:
-					viewpager.setCurrentItem(0, false);
-					checkedId = 0;
-					break;
-				case R.id.rb_news_center:
-					viewpager.setCurrentItem(1, false);
-					checkedId = 1;
-					break;
-				case R.id.rb_smart_service:
-					viewpager.setCurrentItem(2, false);
-					checkedId = 2;
-					break;
-				case R.id.rb_gov_affairs:
-					viewpager.setCurrentItem(3, false);
-					checkedId = 3;
-					break;
-				case R.id.rb_setting:
-					viewpager.setCurrentItem(4, false);
-					checkedId = 4;
-					break;
-				}
-
-			}
-		});
-		main_radio.check(checkedId);
 	}
 
-	class HomePageAdapter extends PagerAdapter {
-		private Context context;
-		private List<BasePage> list;
+	// 从服务器上获取数据(json)
+	public void getData(HttpMethod method, String url, RequestParams params,
+			RequestCallBack<String> callBack) {
+		HttpUtils httpUtils = new HttpUtils();
+		httpUtils.send(method, url, params, callBack);
+	}
 
-		public HomePageAdapter(Context context, List<BasePage> list) {
-			this.context = context;
-			this.list = list;
+	// 获取网络数据后接口回调
+	RequestCallBack<String> callBack = new RequestCallBack<String>() {
+
+		@Override
+		public void onSuccess(ResponseInfo<String> responseInfo) {
+			if (responseInfo.result.startsWith("{")
+					&& responseInfo.result.endsWith("}")) {
+				processData(responseInfo.result);
+				SharePrefUtil.saveString(context,
+						AppConstant.NEWS_CENTER_CACHE, responseInfo.result);
+			}
 		}
 
 		@Override
-		public int getCount() {
-			return list.size();
+		public void onFailure(HttpException error, String msg) {
+			Toast.makeText(context, "网络错误", Toast.LENGTH_SHORT).show();
 		}
 
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == arg1;
-		}
+	};
 
-		@Override
-		public void destroyItem(ViewGroup container, int position, Object object) {
-			// TODO Auto-generated method stub
-			((CustomViewPager) container).removeView(list.get(position)
-					.getRootView());
+	// 处理网络数据
+	private void processData(String result) {
+		BaseModel baseModel = QLParser.parse(result, BaseModel.class);
+		if (baseModel.retcode != 200) {
+			Toast.makeText(context, "服务器错误", Toast.LENGTH_SHORT).show();
+			return;
 		}
-
-		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
-			((CustomViewPager) container).addView(list.get(position)
-					.getRootView(), 0);
-			return list.get(position).getRootView();
+		if (menuNewsList.size() == 0) {
+			List<DataModel> data = baseModel.data;
+			for (DataModel dataModel : data) {
+				menuNewsList.add(dataModel.title);
+			}
 		}
+		changeMenuList(menuNewsList);
+		pageList.clear();
+		BasePage newsPage = new NewsPage(context, baseModel.data.get(0));
+		BasePage topicPage = new TopicPage(context, baseModel.data.get(1));
+		BasePage picPage = new PicPage(context, baseModel.data.get(2));
+		BasePage interactPage = new InteractPage(context, baseModel.data.get(3));
+		BasePage votePage = new VotePage(context, baseModel.data.get(4));
+		pageList.add(newsPage);
+		pageList.add(topicPage);
+		pageList.add(picPage);
+		pageList.add(interactPage);
+		pageList.add(votePage);
+		if (firstLoad) {
+			this.menuSwitch(null, null, 0, 0l);
+			firstLoad = false;
+		}
+		// TODO
+	}
 
+	// 把menuNewsList的数据传递给MenuFragment，并初始化MenuList的数据
+	private void changeMenuList(List<String> menuNewsList) {
+		menuFragment = ((MainActivity) context).getMenuFragment();
+		menuFragment.initMenuList(menuNewsList);
+		menuFragment.listener = this;
+	}
+
+	// slidingmenu的接口回调
+	@Override
+	public void menuSwitch(AdapterView<?> parent, View view, int position,
+			long id) {
+		basePage = pageList.get(position);
+		fl_news_center.removeAllViews();
+		fl_news_center.addView(basePage.getRootView());
+		basePage.initData();
 	}
 
 	@Override
 	public View initView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = LayoutInflater.from(getActivity()).inflate(R.layout.frag_home2,
-				null);
+		View view = LayoutInflater.from(context).inflate(
+				R.layout.news_center_frame, null);
 		ViewUtils.inject(this, view);
 		return view;
 	}

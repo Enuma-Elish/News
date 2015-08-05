@@ -17,7 +17,6 @@ public class MainActivity extends SlidingFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setBehindContentView(R.layout.menu_content);
 		setContentView(R.layout.content);
 

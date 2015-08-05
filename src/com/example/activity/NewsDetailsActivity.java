@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.webkit.URLUtil;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.TextSize;
@@ -36,24 +35,25 @@ public class NewsDetailsActivity extends BaseActivity implements
 
 	@ViewInject(R.id.wv_news_details)
 	private WebView wv_news_details;
-	@ViewInject(R.id.imgbtn_left)
-	private ImageButton imgbtn_left;
-	@ViewInject(R.id.imgbtn_middle)
-	private ImageButton imgbtn_middle;
-	@ViewInject(R.id.imgbtn_right)
-	private ImageButton imgbtn_right;
+	@ViewInject(R.id.ib_left)
+	private ImageButton ib_left;
+	@ViewInject(R.id.ib_middle)
+	private ImageButton ib_middle;
+	@ViewInject(R.id.ib_right)
+	private ImageButton ib_right;
 	private News news;
 	private TopNews topNews;
 	private WebSettings settings;
 	private static final String[] FONT_SIZE = new String[] { "小号字体", "中号字体",
 			"大号字体", "特大号字体" };
 	private int flag = 1;
-	private static final TextSize[] TEXT_SIZE = new TextSize[]{TextSize.SMALLER,TextSize.NORMAL,TextSize.LARGER,TextSize.LARGEST};
+	private static final TextSize[] TEXT_SIZE = new TextSize[] {
+			TextSize.SMALLER, TextSize.NORMAL, TextSize.LARGER,
+			TextSize.LARGEST };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.layout_news_details);
 		ActivityCollector.addActivity(this);
 		ViewUtils.inject(this);
@@ -68,27 +68,27 @@ public class NewsDetailsActivity extends BaseActivity implements
 		super.onDestroy();
 	}
 
-	//初始化titlebar
+	// 初始化titlebar
 	private void initTiltBar() {
-		imgbtn_left.setImageResource(R.drawable.back);
-		imgbtn_left.setOnClickListener(this);
-		imgbtn_middle.setImageResource(R.drawable.icon_textsize);
-		imgbtn_middle.setOnClickListener(this);
-		imgbtn_right.setImageResource(R.drawable.icon_share);
-		imgbtn_right.setOnClickListener(this);
+		ib_left.setImageResource(R.drawable.back);
+		ib_left.setOnClickListener(this);
+		ib_middle.setImageResource(R.drawable.icon_textsize);
+		ib_middle.setOnClickListener(this);
+		ib_right.setImageResource(R.drawable.icon_share);
+		ib_right.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.imgbtn_left:
+		case R.id.ib_left:
 			finish(); // 返回
 			break;
-		case R.id.imgbtn_middle:
-			showFontDialog();  //显示字体选择对话框
+		case R.id.ib_middle:
+			showFontDialog(); // 显示字体选择对话框
 			break;
-		case R.id.imgbtn_right:
-			showShare();  //显示分享对话框
+		case R.id.ib_right:
+			showShare(); // 显示分享对话框
 			break;
 		default:
 			break;
@@ -104,17 +104,17 @@ public class NewsDetailsActivity extends BaseActivity implements
 							public void onClick(DialogInterface dialog,
 									int which) {
 								flag = which;
-								
+
 							}
 						})
 				.setPositiveButton("确认", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						settings.setTextSize(TEXT_SIZE[flag]);
-						SharePrefUtil.saveInt(NewsDetailsActivity.this, AppConstant.SP_FONT_SIZE_NAME, flag);
+						SharePrefUtil.saveInt(NewsDetailsActivity.this,
+								AppConstant.SP_FONT_SIZE_NAME, flag);
 					}
-				})
-				.setNegativeButton("取消",null).create();
+				}).setNegativeButton("取消", null).create();
 		alertDialog.show();
 	}
 
@@ -161,7 +161,8 @@ public class NewsDetailsActivity extends BaseActivity implements
 		}
 		settings = wv_news_details.getSettings();
 		settings.setJavaScriptEnabled(true);
-		flag = SharePrefUtil.getInt(NewsDetailsActivity.this, AppConstant.SP_FONT_SIZE_NAME, 1);
+		flag = SharePrefUtil.getInt(NewsDetailsActivity.this,
+				AppConstant.SP_FONT_SIZE_NAME, 1);
 		settings.setTextSize(TEXT_SIZE[flag]);
 		wv_news_details.setWebViewClient(new WebViewClient() {
 			@Override

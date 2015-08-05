@@ -2,7 +2,6 @@ package com.example.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Window;
 
 import com.example.fragment.HomeFragment;
 import com.example.fragment.MenuFragment;

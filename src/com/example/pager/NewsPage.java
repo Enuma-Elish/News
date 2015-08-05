@@ -21,7 +21,7 @@ import com.example.news.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.qianlong.android.view.pagerindicator.TabPageIndicator;
+import com.viewpagerindicator.TabPageIndicator;
 
 public class NewsPage extends BasePage implements OnPageChangeListener {
 

@@ -62,6 +62,16 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	private boolean isLoaded; // 是否为已加载
 	private boolean isMore; // 是否更多
 	private boolean isLoadFirstPage; // 默认缓存第一页
+	
+	private List<TopNews> topNewsList;
+	private List<News> newsList;
+	private NewsListBean newsListBean;
+	private List<View> dots;
+	private RollViewPager pager;
+	private List<String> uriList;
+	private List<String> titleList;
+	private NewsAdapter adapter;
+	private List<News> list = new ArrayList<News>();
 
 	public ItemNewsPage(Context context, ChildrenModel children) {
 		super(context);
@@ -77,9 +87,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			lv_item_news.setLastUpdatedLabel(updateTime);
 		}
 		if (!TextUtils.isEmpty(cache)) {
-			if (isLoaded || CommonUtil.isNetworkAvailable(context) == 0) {
 				processData(cache);
-			}
 		}
 		if (!isLoaded && CommonUtil.isNetworkAvailable(context) != 0) {
 			getData(HttpMethod.GET, children.url, null, callBack);
@@ -123,15 +131,6 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 				updateTime); // 缓存更新时间
 	}
 
-	private List<TopNews> topNewsList;
-	private List<News> newsList;
-	private NewsListBean newsListBean;
-	private List<View> dots;
-	private RollViewPager pager;
-	private List<String> uriList;
-	private List<String> titleList;
-	private NewsAdapter adapter;
-	private List<News> list = new ArrayList<News>();
 
 	// 处理获取数据
 	private void processData(String result) {

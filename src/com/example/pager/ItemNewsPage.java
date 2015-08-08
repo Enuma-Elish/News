@@ -29,15 +29,15 @@ import com.example.util.QLParser;
 import com.example.util.SharePrefUtil;
 import com.example.view.RollViewPager;
 import com.example.view.RollViewPager.OnPagerClickCallback;
+import com.example.view.pullrefreshview.PullToRefreshBase;
+import com.example.view.pullrefreshview.PullToRefreshListView;
+import com.example.view.pullrefreshview.PullToRefreshBase.OnRefreshListener;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.qianlong.android.view.pullrefreshview.PullToRefreshBase;
-import com.qianlong.android.view.pullrefreshview.PullToRefreshBase.OnRefreshListener;
-import com.qianlong.android.view.pullrefreshview.PullToRefreshListView;
 
 public class ItemNewsPage extends BasePage implements OnItemClickListener {
 

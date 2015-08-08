@@ -3,10 +3,11 @@ package com.example.pager;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.base.BasePage;
 import com.example.model.BaseModel.DataModel;
+import com.example.news.R;
+import com.lidroid.xutils.ViewUtils;
 
 public class InteractPage extends BasePage {
 
@@ -16,8 +17,9 @@ public class InteractPage extends BasePage {
 
 	@Override
 	public View initView(LayoutInflater inflater) {
-		TextView view = new TextView(context);
-		view.setText("hudong");
+		View view = inflater.inflate(R.layout.layout_pager_interact, null);
+		ViewUtils.inject(this, view);
+		super.initTitleBar(view);
 		return view;
 	}
 

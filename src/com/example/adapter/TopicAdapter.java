@@ -3,7 +3,6 @@ package com.example.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.provider.SyncStateContract.Constants;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import com.example.model.TopicListBean.Topic;
 import com.example.news.R;
 import com.example.util.CommonUtil;
-import com.example.util.SharePrefUtil;
 import com.lidroid.xutils.BitmapUtils;
 
 public class TopicAdapter extends BaseAdapter {

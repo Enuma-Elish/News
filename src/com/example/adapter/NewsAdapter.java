@@ -37,6 +37,7 @@ public class NewsAdapter extends QLBaseAdapter<News, ListView> {
 			holder.pub_date = (TextView) view.findViewById(R.id.tv_pub_date);
 			holder.comment_count = (TextView) view
 					.findViewById(R.id.tv_comment_count);
+			holder.iv_popicon = (ImageView) view.findViewById(R.id.iv_popicon);
 			view.setTag(holder);
 		} else {
 			view = convertView;
@@ -63,6 +64,7 @@ public class NewsAdapter extends QLBaseAdapter<News, ListView> {
 		TextView title;
 		TextView pub_date;
 		TextView comment_count;
+		ImageView iv_popicon;
 	}
 
 }

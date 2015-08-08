@@ -11,14 +11,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.activity.NewsDetailsActivity;
 import com.example.base.BasePage;
-import com.example.fragment.HomeFragment;
 import com.example.model.BaseModel.DataModel;
 import com.example.model.Photo;
 import com.example.model.Photo.News;

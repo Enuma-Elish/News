@@ -6,11 +6,9 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,8 +33,6 @@ public class PicPage extends BasePage {
 
 	@ViewInject(R.id.lv_pic)
 	private ListView lv_pic;
-	@ViewInject(R.id.gv_pic)
-	private GridView gv_pic;
 	private PhotoAdapter adapter;
 	private List<News> mPhotoList = new ArrayList<Photo.News>();
 	private DataModel dataModel;
@@ -51,14 +47,6 @@ public class PicPage extends BasePage {
 		View view = inflater.inflate(R.layout.layout_news_pic, null);
 		ViewUtils.inject(this, view);
 		super.initTitleBar(view);
-		ib_right.setImageResource(R.drawable.icon_pic_list_type);
-		ib_right.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				changeDisplay();
-			}
-		});
 		return view;
 	}
 
@@ -68,7 +56,6 @@ public class PicPage extends BasePage {
 		getData(HttpMethod.GET, dataModel.url, null, callBack);
 		adapter = new PhotoAdapter();
 		lv_pic.setAdapter(adapter);
-		gv_pic.setAdapter(adapter);
 	}
 
 	private void processData(String json) {
@@ -150,27 +137,6 @@ public class PicPage extends BasePage {
 			public ImageView ivPic;
 		}
 
-	}
-
-	private boolean isListDisplay = true;// 是否是列表展示
-
-	/**
-	 * 切换展现方式
-	 */
-	private void changeDisplay() {
-		if (isListDisplay) {
-			isListDisplay = false;
-			lv_pic.setVisibility(View.GONE);
-			gv_pic.setVisibility(View.VISIBLE);
-			ib_right.setImageResource(R.drawable.icon_pic_list_type);
-
-		} else {
-			isListDisplay = true;
-			lv_pic.setVisibility(View.VISIBLE);
-			gv_pic.setVisibility(View.GONE);
-
-			ib_right.setImageResource(R.drawable.icon_pic_grid_type);
-		}
 	}
 
 }

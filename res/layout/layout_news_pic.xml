@@ -9,29 +9,14 @@
         android:id="@+id/title_bar"
         layout="@layout/layout_title_bar" />
 
-    <FrameLayout
+    <ListView
+        android:id="@+id/lv_pic"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-
-        <ListView
-            android:id="@+id/lv_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cacheColorHint="#fff"
-            android:divider="@null"
-            android:listSelector="@android:color/transparent"
-            android:scrollbars="none" >
-        </ListView>
-
-        <GridView
-            android:id="@+id/gv_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:numColumns="2"
-            android:scrollbars="none"
-            android:visibility="gone" >
-        </GridView>
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#fff"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="none" >
+    </ListView>
 
 </LinearLayout>

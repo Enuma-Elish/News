@@ -62,6 +62,8 @@ public abstract class BasePage {
 				((MainActivity) context).getSlidingMenu().showMenu();
 			}
 		});
+		ib_middle.setImageResource(R.drawable.ic_notification_disabled);
+		ib_right.setImageResource(R.drawable.abc_ic_menu_moreoverflow_mtrl_alpha);
 		
 	}
 

@@ -100,10 +100,10 @@
             android:layout_height="match_parent"
             android:cacheColorHint="@android:color/transparent"
             android:dividerHeight="1dp"
-            android:headerDividersEnabled="true"
-            android:footerDividersEnabled="true"
             android:fadingEdge="none"
             android:focusable="true"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
             android:listSelector="@drawable/transparent"
             android:scrollbars="none" >
         </ListView>
@@ -129,8 +129,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15.0dip"
             android:layout_marginStart="15.0dip"
+            android:layout_gravity="center_vertical"
             android:textColor="@android:color/darker_gray"
-            android:textSize="15.0sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

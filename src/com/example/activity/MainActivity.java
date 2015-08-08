@@ -2,6 +2,8 @@ package com.example.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.example.fragment.HomeFragment;
 import com.example.fragment.MenuFragment;
@@ -20,13 +22,14 @@ public class MainActivity extends SlidingFragmentActivity {
 		setContentView(R.layout.content);
 
 		sm = getSlidingMenu();
-		sm.setMode(SlidingMenu.LEFT); //设置滑动的方向
+		sm.setMode(SlidingMenu.LEFT); // 设置滑动的方向
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setShadowDrawable(R.drawable.shadow);
-		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN); //设置滑动模式
+		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN); // 设置滑动模式
 		MenuFragment menuFragment = new MenuFragment();
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_content_frame, menuFragment, "Menu").commit();
+				.replace(R.id.menu_content_frame, menuFragment, "Menu")
+				.commit();
 
 		HomeFragment homeFragment = new HomeFragment();
 		getSupportFragmentManager().beginTransaction()
@@ -42,5 +45,19 @@ public class MainActivity extends SlidingFragmentActivity {
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, f).commit();
 		sm.toggle();
+	}
+
+	long exitTime = 0;
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (KeyEvent.KEYCODE_BACK == keyCode) {
+			if ((System.currentTimeMillis() - exitTime) > 2000) {
+				Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show();
+				exitTime = System.currentTimeMillis();
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

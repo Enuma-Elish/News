@@ -62,7 +62,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	private boolean isLoaded; // 是否为已加载
 	private boolean isMore; // 是否更多
 	private boolean isLoadFirstPage; // 默认缓存第一页
-	
+
 	private List<TopNews> topNewsList;
 	private List<News> newsList;
 	private NewsListBean newsListBean;
@@ -87,7 +87,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			lv_item_news.setLastUpdatedLabel(updateTime);
 		}
 		if (!TextUtils.isEmpty(cache)) {
-				processData(cache);
+			processData(cache);
 		}
 		if (!isLoaded && CommonUtil.isNetworkAvailable(context) != 0) {
 			getData(HttpMethod.GET, children.url, null, callBack);
@@ -130,7 +130,6 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		SharePrefUtil.saveString(context, children.title + "update_time",
 				updateTime); // 缓存更新时间
 	}
-
 
 	// 处理获取数据
 	private void processData(String result) {
@@ -221,7 +220,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		@Override
 		public void onPagerClick(int position) {
 			TopNews topNews = topNewsList.get(position);
-			NewsDetailsActivity.actionStart(context, "topNews", topNews);
+			NewsDetailsActivity.actionStart(context, topNews.url);
 		}
 	};
 
@@ -266,7 +265,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		News news = (News) parent.getAdapter().getItem(position);
-		NewsDetailsActivity.actionStart(context, "news", news);
+		NewsDetailsActivity.actionStart(context, news.url);
 	}
 
 }

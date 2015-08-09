@@ -27,6 +27,7 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm = getSlidingMenu();
 		sm.setMode(SlidingMenu.LEFT); // 设置滑动的方向
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setShadowDrawable(R.drawable.shadow);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN); // 设置滑动模式
 		MenuFragment menuFragment = new MenuFragment();

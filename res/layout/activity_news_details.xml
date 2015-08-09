@@ -12,5 +12,9 @@
         android:id="@+id/wv_news_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    
+    <include
+        android:id="@+id/loading"
+        layout="@layout/layout_loading" />
 
 </LinearLayout>

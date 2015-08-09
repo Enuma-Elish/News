@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +43,17 @@ public class MenuFragment extends BaseFragment {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		adapter.setCurrPosition(position);
-		listener.menuSwitch(parent, view, position, id);
-		sm.toggle();
+		if (listener != null) {
+			listener.menuSwitch(parent, view, position, id);
+		}
+		handler.sendEmptyMessageDelayed(0, 300);
 	}
+
+	Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			sm.toggle();
+		};
+	};
 
 	// 初始化list的数据
 	public void initMenuList(List<String> menuList) {

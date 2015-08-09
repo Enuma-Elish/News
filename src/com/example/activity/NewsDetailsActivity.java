@@ -1,7 +1,5 @@
 package com.example.activity;
 
-import java.io.Serializable;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,15 +9,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.URLUtil;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.TextSize;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-import com.example.base.ActivityCollector;
 import com.example.base.BaseActivity;
 import com.example.constant.AppConstant;
 import com.example.model.NewsListBean.News;
@@ -41,6 +40,8 @@ public class NewsDetailsActivity extends BaseActivity implements
 	private ImageButton ib_middle;
 	@ViewInject(R.id.ib_right)
 	private ImageButton ib_right;
+	@ViewInject(R.id.loading)
+	private FrameLayout loading;
 	private News news;
 	private TopNews topNews;
 	private WebSettings settings;
@@ -50,12 +51,12 @@ public class NewsDetailsActivity extends BaseActivity implements
 	private static final TextSize[] TEXT_SIZE = new TextSize[] {
 			TextSize.SMALLER, TextSize.NORMAL, TextSize.LARGER,
 			TextSize.LARGEST };
+	public static final String URL = "url";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_news_details);
-		ActivityCollector.addActivity(this);
 		ViewUtils.inject(this);
 		initTiltBar();
 		initData();
@@ -64,7 +65,6 @@ public class NewsDetailsActivity extends BaseActivity implements
 	@Override
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
-		ActivityCollector.removeActivity(this);
 		super.onDestroy();
 	}
 
@@ -151,14 +151,7 @@ public class NewsDetailsActivity extends BaseActivity implements
 	}
 
 	private void initData() {
-		String url = null;
-		news = (News) getIntent().getSerializableExtra("news");
-		topNews = (TopNews) getIntent().getSerializableExtra("topNews");
-		if (news != null) {
-			url = news.url;
-		} else if (topNews != null) {
-			url = topNews.url;
-		}
+		String url = getIntent().getStringExtra(URL);
 		settings = wv_news_details.getSettings();
 		settings.setJavaScriptEnabled(true);
 		flag = SharePrefUtil.getInt(NewsDetailsActivity.this,
@@ -169,17 +162,30 @@ public class NewsDetailsActivity extends BaseActivity implements
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				return false;
 			}
+
+		});
+		wv_news_details.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public void onProgressChanged(WebView view, int newProgress) {
+				if (newProgress == 100) {
+					loading.setVisibility(View.GONE);
+					wv_news_details.setVisibility(View.VISIBLE);
+				}else{
+					loading.setVisibility(View.VISIBLE);
+					wv_news_details.setVisibility(View.GONE);
+				}
+				super.onProgressChanged(view, newProgress);
+			}
 		});
 		if (URLUtil.isNetworkUrl(url)) {
 			wv_news_details.loadUrl(url);
 		}
 	}
 
-	public static void actionStart(Context context, String name,
-			Serializable serializable) {
+	public static void actionStart(Context context, String url) {
 		Intent intent = new Intent();
 		intent.setClass(context, NewsDetailsActivity.class);
-		intent.putExtra(name, serializable);
+		intent.putExtra(URL, url);
 		context.startActivity(intent);
 	}
 

@@ -143,10 +143,10 @@ public class PicPage extends BasePage implements OnItemClickListener {
 				lv_pic.onPullDownRefreshComplete();
 				refresh = false;
 				first = false;
-			}else{
+			} else {
 				lv_pic.onPullUpRefreshComplete();
 			}
-			
+
 		}
 
 		@Override
@@ -162,7 +162,7 @@ public class PicPage extends BasePage implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		News news = (News) parent.getAdapter().getItem(position);
-		NewsDetailsActivity.actionStart(context, "news", news);
+		NewsDetailsActivity.actionStart(context, news.url);
 	}
 
 	class PhotoAdapter extends BaseAdapter {

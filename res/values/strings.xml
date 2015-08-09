@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">BJ新闻</string>
+    <string name="action_settings">设置</string>
+    <string name="action_about">关于</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">dummy_content</string>
     <string name="share_content">来自新闻的分享：\n</string>

@@ -54,7 +54,7 @@ public class NewsDetailsActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_news_details);
+		setContentView(R.layout.activity_news_details);
 		ActivityCollector.addActivity(this);
 		ViewUtils.inject(this);
 		initTiltBar();

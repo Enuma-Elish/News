@@ -30,24 +30,6 @@ public class GsonUtils {
 		return list;
 	}
 
-//	public static List<FunctionItem> changeGsonToFunList(String gsonString,
-//			Class<FunctionItem> cls) {
-//		Gson gson = new Gson();
-//		List<FunctionItem> list = gson.fromJson(gsonString,
-//				new TypeToken<List<FunctionItem>>() {
-//				}.getType());
-//		return list;
-//	}
-//	
-//	public static List<ChildNewsCate> changeGsonToCateList(String gsonString,
-//			Class<ChildNewsCate> cls) {
-//		Gson gson = new Gson();
-//		List<ChildNewsCate> list = gson.fromJson(gsonString,
-//				new TypeToken<List<ChildNewsCate>>() {
-//				}.getType());
-//		return list;
-//	}
-
 	public static <T> List<Map<String, T>> changeGsonToListMaps(
 			String gsonString) {
 		List<Map<String, T>> list = null;

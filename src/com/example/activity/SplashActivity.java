@@ -1,6 +1,5 @@
 package com.example.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,12 +7,13 @@ import android.os.Message;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 
+import com.example.base.BaseActivity;
 import com.example.news.R;
 import com.example.util.SharePrefUtil;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 
 	private static final int DELAY_TIME = 2000;
 	private static final int GO_GUIDE = 1001;

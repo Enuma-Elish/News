@@ -15,5 +15,6 @@
     <color name="news_item_no_read_textcolor">#363636</color>
     <color name="dislike_bg_pressed">#ff2b2b2b</color>
     <color name="dislike_line_color">#ff252525</color>
+    <color name="activity_bg_color">#fff5f5f5</color>
 
 </resources>

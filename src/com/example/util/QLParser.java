@@ -24,7 +24,6 @@ public class QLParser {
 			JSONObject jsonObject = new JSONObject(jsonString);
 			code = jsonObject.getInt("retcode");
 			if (code == 200) {
-				System.out.println(jsonString);
 				return jsonString;
 			}
 		} catch (JSONException e) {

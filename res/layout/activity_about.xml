@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/activity_bg_color" >
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/layout_title_bar" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title_bar" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@android:color/white"
+            android:orientation="vertical" >
+
+            <com.example.view.AboutItemView
+                xmlns:yqr="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/aiv_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                yqr:title="应用名称" />
+
+            <View style="@style/style_divider" />
+
+            <com.example.view.AboutItemView
+                xmlns:yqr="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/aiv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                yqr:title="版本信息" />
+
+            <View style="@style/style_divider" />
+
+            <com.example.view.AboutItemView
+                xmlns:yqr="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/aiv_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                yqr:desc="yqr271228943@gmail.com"
+                yqr:title="联系我们" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

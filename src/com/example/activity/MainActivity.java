@@ -22,7 +22,7 @@ public class MainActivity extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setBehindContentView(R.layout.menu_content);
-		setContentView(R.layout.content);
+		setContentView(R.layout.activity_main);
 
 		sm = getSlidingMenu();
 		sm.setMode(SlidingMenu.LEFT); // 设置滑动的方向
@@ -73,14 +73,17 @@ public class MainActivity extends SlidingFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
+		Intent intent;
 		switch (id) {
 		case R.id.action_settings:
-			Intent intent = new Intent(this, SettingsActivity.class);
+			intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
 		case R.id.action_about:
-			
+			intent = new Intent(this, AboutActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
 		default:
 			break;

@@ -41,10 +41,9 @@
             android:name="com.example.activity.MainActivity"
             android:theme="@style/StyledIndicators" >
         </activity>
-        <activity android:name="com.example.activity.NewsDetailsActivity" >
-        </activity>
-        <activity android:name="com.example.activity.SettingsActivity" >
-        </activity>
+        <activity android:name="com.example.activity.NewsDetailsActivity" />
+        <activity android:name="com.example.activity.SettingsActivity" />
+        <activity android:name="com.example.activity.AboutActivity" />
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,12 +19,14 @@ import android.widget.TextView;
 import com.example.activity.NewsDetailsActivity;
 import com.example.base.BasePage;
 import com.example.base.QLBaseAdapter;
+import com.example.constant.AppConstant;
 import com.example.model.BaseModel.DataModel;
 import com.example.model.TopicBean;
 import com.example.model.TopicBean.News;
 import com.example.model.TopicBean.Topic;
 import com.example.news.R;
 import com.example.util.GsonUtils;
+import com.example.util.SharePrefUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -31,7 +34,6 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
 public class TopicPage extends BasePage {
 
@@ -41,6 +43,7 @@ public class TopicPage extends BasePage {
 	private TopicAdapter adapter;
 	private BitmapUtils bitmapUtils;
 	private List<Topic> list = new ArrayList<>();
+	private boolean first = true;
 
 	public TopicPage(Context context, DataModel dataModel) {
 		super(context);
@@ -62,10 +65,20 @@ public class TopicPage extends BasePage {
 			adapter = new TopicAdapter(context, list);
 			lv_topic.setAdapter(adapter);
 		}
-		getData(HttpMethod.GET, dataModel.url, null, callBack);
+		String cache = SharePrefUtil.getString(context,
+				AppConstant.TOPIC_CACHE, "");
+		if (TextUtils.isEmpty(cache)) {
+			getData(HttpMethod.GET, dataModel.url, null, callBack);
+		} else {
+			processData(cache);
+			if (first) {
+				getData(HttpMethod.GET, dataModel.url, null, callBack);
+			}
+		}
 	}
 
 	protected void processData(String result) {
+		list.clear();
 		TopicBean topicBean = GsonUtils.changeGsonToBean(result,
 				TopicBean.class);
 		list.addAll(topicBean.data.topic);
@@ -75,6 +88,10 @@ public class TopicPage extends BasePage {
 	RequestCallBack<String> callBack = new RequestCallBack<String>() {
 		@Override
 		public void onSuccess(ResponseInfo<String> responseInfo) {
+			if (first) {
+				SharePrefUtil.saveString(context, AppConstant.TOPIC_CACHE,
+						responseInfo.result);
+			}
 			processData(responseInfo.result);
 		}
 

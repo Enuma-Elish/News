@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -162,6 +163,14 @@ public class PicPage extends BasePage implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		News news = (News) parent.getAdapter().getItem(position);
+		String read = SharePrefUtil.getString(context, "pic_read", "");
+		if (!read.contains(String.valueOf(news.id))) {
+			read = read + news.id + ",";
+			SharePrefUtil.saveString(context, "pic_read", read);
+		}
+		TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
+		tvTitle.setTextColor(R.color.news_item_has_read_textcolor);
+
 		NewsDetailsActivity.actionStart(context, news.url);
 	}
 
@@ -204,6 +213,13 @@ public class PicPage extends BasePage implements OnItemClickListener {
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
+			}
+			String read = SharePrefUtil.getString(context, "pic_read", "");
+			if (read.contains(String.valueOf(news.id))) {
+				holder.tvTitle
+						.setTextColor(R.color.news_item_has_read_textcolor);
+			} else {
+				holder.tvTitle.setTextColor(Color.BLACK);
 			}
 			holder.tvTitle.setText(news.title);
 			utils.display(holder.ivPic, news.largeimage);

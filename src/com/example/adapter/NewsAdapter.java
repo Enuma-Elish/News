@@ -3,6 +3,7 @@ package com.example.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.example.base.QLBaseAdapter;
 import com.example.model.NewsListBean.News;
 import com.example.news.R;
+import com.example.util.SharePrefUtil;
 import com.lidroid.xutils.BitmapUtils;
 
 public class NewsAdapter extends QLBaseAdapter<News, ListView> {
@@ -25,10 +27,13 @@ public class NewsAdapter extends QLBaseAdapter<News, ListView> {
 	private BitmapUtils bitmapUtil;
 	private PopupWindow popupWindow;
 	private ImageView btn_pop_close;
-
-	public NewsAdapter(Context context, List<News> list) {
+	private String title;
+	
+	public NewsAdapter(Context context, List<News> list,String title) {
 		super(context, list);
+		this.title = title;
 		bitmapUtil = new BitmapUtils(context);
+		System.out.println("read:" + title + "read");
 		initPopWindow();
 	}
 
@@ -66,6 +71,12 @@ public class NewsAdapter extends QLBaseAdapter<News, ListView> {
 			holder = (ViewHolder) view.getTag();
 		}
 		holder.iv_popicon.setOnClickListener(new popAction(position));
+		String read = SharePrefUtil.getString(context, title + "read", "");
+		if(read.contains(String.valueOf(news.id))){
+			holder.title.setTextColor(R.color.news_item_has_read_textcolor);
+		}else{
+			holder.title.setTextColor(Color.BLACK);
+		}
 		holder.title.setText(news.title);
 		holder.pub_date.setText(news.pubdate);
 		if (news.comment) {

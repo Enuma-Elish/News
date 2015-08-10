@@ -46,7 +46,7 @@ public class MenuFragment extends BaseFragment {
 		if (listener != null) {
 			listener.menuSwitch(parent, view, position, id);
 		}
-		handler.sendEmptyMessageDelayed(0, 300);
+		handler.sendEmptyMessageDelayed(0, 200);
 	}
 
 	Handler handler = new Handler() {

@@ -30,8 +30,8 @@ import com.example.util.SharePrefUtil;
 import com.example.view.RollViewPager;
 import com.example.view.RollViewPager.OnPagerClickCallback;
 import com.example.view.pullrefreshview.PullToRefreshBase;
-import com.example.view.pullrefreshview.PullToRefreshListView;
 import com.example.view.pullrefreshview.PullToRefreshBase.OnRefreshListener;
+import com.example.view.pullrefreshview.PullToRefreshListView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -166,7 +166,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			list.add(n);
 		}
 		if (adapter == null) {
-			adapter = new NewsAdapter(context, list);
+			adapter = new NewsAdapter(context, list, children.title);
 			lv_item_news.getRefreshableView().setAdapter(adapter);
 		}
 		if (isMore) {
@@ -265,7 +265,14 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		News news = (News) parent.getAdapter().getItem(position);
+		String read = SharePrefUtil.getString(context, children.title + "read", "");
+		if (!read.contains(String.valueOf(news.id))) {
+			read = read + news.id + ",";
+			SharePrefUtil.saveString(context, children.title + "read",
+					read);
+		}
+		TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
+		tvTitle.setTextColor(R.color.news_item_has_read_textcolor);
 		NewsDetailsActivity.actionStart(context, news.url);
 	}
-
 }

@@ -5,19 +5,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import com.example.constant.AppConstant;
+import java.util.Set;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.example.constant.AppConstant;
+
 /**
  * SharePreferences操作工具类
  */
 public class SharePrefUtil {
-	
+
 	private static String tag = SharePrefUtil.class.getSimpleName();
 	private static SharedPreferences sp;
 
@@ -77,6 +78,20 @@ public class SharePrefUtil {
 		if (sp == null)
 			sp = context.getSharedPreferences(AppConstant.SP_NAME, 0);
 		sp.edit().putLong(key, value).commit();
+	}
+
+	public static void saveStringSet(Context context, String key,
+			Set<String> value) {
+		if (sp == null)
+			sp = context.getSharedPreferences(AppConstant.SP_NAME, 0);
+		sp.edit().putStringSet(key, value).commit();
+	}
+
+	public static Set<String> getStringSet(Context context, String key,
+			Set<String> defValue) {
+		if (sp == null)
+			sp = context.getSharedPreferences(AppConstant.SP_NAME, 0);
+		return sp.getStringSet(key, defValue);
 	}
 
 	/**

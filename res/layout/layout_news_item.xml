@@ -20,7 +20,7 @@
         android:layout_toRightOf="@id/iv_img"
         android:maxLines="3"
         android:text="标题"
-        android:textColor="#363636"
+        android:textColor="@color/news_item_no_read_textcolor"
         android:textSize="17sp" />
 
     <RelativeLayout

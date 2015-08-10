@@ -31,7 +31,7 @@ public class NewsListBean extends BaseBean {
 		public String type;
 	}
 
-	public static class News implements Serializable  {
+	public static class News implements Serializable {
 
 		private static final long serialVersionUID = -101034706063311346L;
 		public int id;
@@ -44,12 +44,11 @@ public class NewsListBean extends BaseBean {
 		public String commenturl;
 		public String commentlist;
 		public String type;
-		// public boolean isRead;
 	}
 
 	public class BaseNews implements Serializable {
 
 		private static final long serialVersionUID = -7132125301468048755L;
-		
+
 	}
 }

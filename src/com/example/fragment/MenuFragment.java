@@ -129,7 +129,7 @@ public class MenuFragment extends BaseFragment {
 			viewHolder.tv_menu_item.setText(list.get(position));
 			if (currPosition == position) {
 				viewHolder.tv_menu_item.setTextColor(context.getResources()
-						.getColor(R.color.red));
+						.getColor(R.color.base_color));
 				viewHolder.iv_menu_item
 						.setImageResource(R.drawable.menu_arr_select);
 				view.setBackgroundResource(R.drawable.menu_item_bg_select);

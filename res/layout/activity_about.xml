@@ -23,8 +23,10 @@
             <com.example.view.AboutItemView
                 xmlns:yqr="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/aiv_app_name"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/selector_settings_bg"
+                android:clickable="true"
                 yqr:title="应用名称" />
 
             <View style="@style/style_divider" />
@@ -32,8 +34,10 @@
             <com.example.view.AboutItemView
                 xmlns:yqr="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/aiv_version"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/selector_settings_bg"
+                android:clickable="true"
                 yqr:title="版本信息" />
 
             <View style="@style/style_divider" />
@@ -41,8 +45,10 @@
             <com.example.view.AboutItemView
                 xmlns:yqr="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/aiv_contact"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/selector_settings_bg"
+                android:clickable="true"
                 yqr:desc="yqr271228943@gmail.com"
                 yqr:title="联系我们" />
         </LinearLayout>

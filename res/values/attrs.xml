@@ -4,5 +4,10 @@
         <attr name="title" format="string" />
         <attr name="desc" format="string" />
     </declare-styleable>
+    
+    <declare-styleable name="SettingsItemView">
+        <attr name="settings_title" format="string" />
+        <attr name="settings_desc" format="string" />
+    </declare-styleable>
 
 </resources>

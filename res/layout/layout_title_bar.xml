@@ -3,16 +3,14 @@
     android:id="@+id/title_bar"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:background="@drawable/title_red_bg2" >
+    android:background="@color/base_color" >
 
     <ImageButton
         android:id="@+id/ib_left"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/selector_title_ib_bg"
         android:scaleType="centerInside" />
 
     <TextView
@@ -24,24 +22,20 @@
 
     <ImageButton
         android:id="@+id/ib_right"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/selector_title_ib_bg"
         android:scaleType="centerInside" />
 
     <ImageButton
         android:id="@+id/ib_middle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_toLeftOf="@id/ib_right"
-        android:background="@android:color/transparent"
+        android:background="@drawable/selector_title_ib_bg"
         android:scaleType="centerInside" />
 
 </RelativeLayout>

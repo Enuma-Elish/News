@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <TextView
+        android:id="@+id/tv_topic_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/topic_title_arr"
+        android:textColor="#141414"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/iv_head_topic"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/tv_topic_title"
+        android:background="@drawable/pic_item_list_default"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@id/iv_head_topic"
+        android:background="#88000000"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/tv_head_topic_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_topic_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_head_topic"
+        android:cacheColorHint="@android:color/transparent"
+        android:scrollbars="none" />
+
+</RelativeLayout>

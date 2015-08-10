@@ -33,7 +33,6 @@ public class NewsAdapter extends QLBaseAdapter<News, ListView> {
 		super(context, list);
 		this.title = title;
 		bitmapUtil = new BitmapUtils(context);
-		System.out.println("read:" + title + "read");
 		initPopWindow();
 	}
 
@@ -42,7 +41,7 @@ public class NewsAdapter extends QLBaseAdapter<News, ListView> {
 	 * */
 	private void initPopWindow() {
 		View popView = LayoutInflater.from(context).inflate(
-				R.layout.list_item_pop, null);
+				R.layout.list_pop_item, null);
 		popupWindow = new PopupWindow(popView, LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 		popupWindow.setBackgroundDrawable(new ColorDrawable(0));
@@ -58,7 +57,7 @@ public class NewsAdapter extends QLBaseAdapter<News, ListView> {
 		News news = list.get(position);
 		if (convertView == null) {
 			holder = new ViewHolder();
-			view = View.inflate(context, R.layout.layout_news_item, null);
+			view = View.inflate(context, R.layout.list_news_item, null);
 			holder.iv = (ImageView) view.findViewById(R.id.iv_img);
 			holder.title = (TextView) view.findViewById(R.id.tv_title);
 			holder.pub_date = (TextView) view.findViewById(R.id.tv_pub_date);

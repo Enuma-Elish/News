@@ -179,6 +179,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	// 初始化RollViewPager
 	private void processTopNews(List<TopNews> topNewsList) {
 		initDots();
+		top_news_viewpager.removeAllViews();
 		uriList = new ArrayList<String>();
 		titleList = new ArrayList<String>();
 		for (TopNews topNews : topNewsList) {

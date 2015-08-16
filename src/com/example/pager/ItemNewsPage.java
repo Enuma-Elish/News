@@ -89,7 +89,7 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		if (!TextUtils.isEmpty(cache)) {
 			processData(cache);
 		}
-		if (!isLoaded && CommonUtil.isNetworkAvailable(context) != 0) {
+		if (!isLoaded) {
 			getData(HttpMethod.GET, children.url, null, callBack);
 		}
 	}
@@ -120,6 +120,10 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 		@Override
 		public void onFailure(HttpException error, String msg) {
 			Toast.makeText(context, "网络错误", Toast.LENGTH_SHORT).show();
+			if (isRefreshing) {
+				lv_item_news.onPullDownRefreshComplete();
+				isRefreshing = false;
+			}
 		}
 	};
 
@@ -238,13 +242,8 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				// 下拉刷新栏，获取服务器最新数据
-				if (CommonUtil.isNetworkAvailable(context) != 0) {
-					isRefreshing = true;
-					getData(HttpMethod.GET, children.url, null, callBack);
-				} else {
-					Toast.makeText(context, "网络错误", Toast.LENGTH_SHORT).show();
-					lv_item_news.onPullDownRefreshComplete();
-				}
+				isRefreshing = true;
+				getData(HttpMethod.GET, children.url, null, callBack);
 			}
 
 			@Override
@@ -266,11 +265,11 @@ public class ItemNewsPage extends BasePage implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		News news = (News) parent.getAdapter().getItem(position);
-		String read = SharePrefUtil.getString(context, children.title + "read", "");
+		String read = SharePrefUtil.getString(context, children.title + "read",
+				"");
 		if (!read.contains(String.valueOf(news.id))) {
 			read = read + news.id + ",";
-			SharePrefUtil.saveString(context, children.title + "read",
-					read);
+			SharePrefUtil.saveString(context, children.title + "read", read);
 		}
 		TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
 		tvTitle.setTextColor(R.color.news_item_has_read_textcolor);

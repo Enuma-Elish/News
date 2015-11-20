@@ -68,11 +68,4 @@
         <item name="android:textColor">@color/dialog_listpage_text</item>
     </style>
     
-     <style name="PopMenuAnimation" parent="@android:style/Animation">
-        <item name="android:windowEnterAnimation">@anim/slide_left_in</item>
-        <item name="android:windowExitAnimation">@anim/slide_right_out</item>
-    </style>
-    
-     
-     
 </resources>

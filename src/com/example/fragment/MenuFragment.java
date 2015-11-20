@@ -18,9 +18,6 @@ import com.example.base.BaseFragment;
 import com.example.base.MenuSwitchListener;
 import com.example.base.QLBaseAdapter;
 import com.example.news.R;
-import com.example.view.ToggleButton;
-import com.example.view.ToggleButton.OnToggleChangeListener;
-import com.example.view.ToggleButton.ToggleState;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnItemClick;
@@ -29,10 +26,6 @@ public class MenuFragment extends BaseFragment {
 
 	@ViewInject(R.id.lv_menu)
 	private ListView listView;
-	@ViewInject(R.id.tb_night_mode)
-	private ToggleButton tb_night_mode;
-	@ViewInject(R.id.tv_night_mode)
-	private TextView tv_night_mode;
 
 	public List<String> list = new ArrayList<String>();
 
@@ -77,18 +70,6 @@ public class MenuFragment extends BaseFragment {
 		view = LayoutInflater.from(getActivity()).inflate(
 				R.layout.layout_left_menu, null);
 		ViewUtils.inject(this, view);
-		tb_night_mode.setState(ToggleState.Close);
-		tv_night_mode.setText(R.string.day_mode);
-		tb_night_mode.setOnToggleChangeListener(new OnToggleChangeListener() {
-			@Override
-			public void toggleChange(ToggleState state) {
-				if (state == ToggleState.Close) {
-					tv_night_mode.setText(R.string.day_mode);
-				} else {
-					tv_night_mode.setText(R.string.night_mode);
-				}
-			}
-		});
 		return view;
 	}
 

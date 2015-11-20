@@ -43,22 +43,12 @@
             android:textColor="#828282"
             android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/iv_popicon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/tv_pub_date"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/tv_pub_date"
-            android:scaleType="center"
-            android:src="@drawable/popicon_listpage" />
-
         <TextView
             android:id="@+id/tv_comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/iv_popicon"
+            android:layout_alignParentRight="true"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/icon_news_comment_num"
             android:maxLines="1"
